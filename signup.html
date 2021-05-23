@@ -9,56 +9,80 @@
 	<body>
 		<div id="page-container">
 			<header>
-				<a href="index.html">
-					<h1>Logo placeholder</h1>
-				</a>
+				 <a href="index.html"><h1>Očkovací registrační systém</h1></a>
 			</header>
+
 			<nav>
 				<ul>
-					<li><a href="">Foo</a></li>
-					<li><a href="">Bar</a></li>
-					<li><a href="login.html">Přihlášení</a></li>
-					<li><a href="signup.html">Registrace</a></li>
+					<li><a href="index.html">Informace</a></li>
+					<li><a href="logged.html">Výběr termínu</a></li>
+					<li><a href="#">Kontakt</a></li>
+					<li><a href="signup.html">Přihlášení / Registrace</a></li>
 				</ul>
 			</nav>
+
 			<div id="content" class="clearfix">
-				<h2>Registrace</h2>
-				<form method="post" action=".">
-					<p>
-						<label for="id_number">Health insurance ID number:</label>
-						<input type="text" name="id_number">
-					</p>
-					<p>
-						<label for="name">Name and surname:</label>
-						<input type="text" name="name">
-					</p>
-					<p>
-						<label for="date_of_birth">date of birth:</label>
-						<input type="text" name="date_of_birth">
-					</p>
-					<p>
-						<label for="address">Address:</label>
-						<input type="text" name="address">
-					</p>
-					<p>
-						<label for="phone">Phone number:</label>
-						<input type="text" name="phone">
-					</p>
-					<p>
-						<label for="medical_history">Medical history:</label>
-						<input type="text" name="medical_history">
-					</p>
-					<p>
-						<label for="shot">Shot no.:</label>
-						<input type="text" name="shot">
-					</p>
-					<p>
-						<input type="submit" name="next" value="Submit">
-					</p>
-					</ul>
-				</form>
+				<h2>Jste již registrovaní? Přihlaste se.</h2>
+					<form method="post" action="logged.html">
+						<p>
+							<label for="id">ID:</label>
+							<input type="text" name="id">
+						</p>
+						<p>
+							<label for="password">Heslo:</label>
+							<input type="password" name="password">
+						</p>
+						<p>
+							<label for="next"></label>
+							<input type="submit" name="next" value="Odeslat">
+						</p>
+					</form>
+
+					<h2>Registrace</h2>
+					<form method="post" action="#">
+						<p>
+							<label for="h_insurance">Číslo pojištěnce:</label>
+							<input type="text" name="h_insurance">
+						</p>
+						<p>
+							<label for="name">Jméno a přijmení:</label>
+							<input type="text" name="name">
+						</p>
+						<p>
+							<label for="date_of_birth">Datum narození:</label>
+							<input type="date" name="date_of_birth">
+						</p>
+						<p>
+							<label for="address">Adresa:</label>
+							<input type="text" name="address">
+						</p>
+						<p>
+							<label for="phone">Telefonní číslo:</label>
+							<input type="tel" name="phone">
+						</p>
+						<p>
+							<label for="mail">E-mailová adresa:</label>
+							<input type="email" name="mail">
+						</p>
+						<p>
+							<label for="medical_history">Medical history:???</label>
+							<input type="text" name="medical_history">
+						</p>
+						<p>
+							<label for="shot">Dávka:</label>
+							<select name="shot">
+								<option value="1">1.</option>
+								<option value="2">2.</option>
+							</select>
+						</p>
+						<p>
+							<label for="next"></label>
+							<input type="submit" name="next" value="Odeslat">
+						</p>
+					</form>
+
 			</div>
-			<footer>2021 SuperUltraBombastickyAzureTeam</footer>
+			<footer>2021 SuperUltraBombastickyAzureTeam<br></footer>
 		</div>
 	</body>
 </html>
