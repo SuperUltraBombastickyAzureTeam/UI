@@ -31,6 +31,11 @@ jobs:
           api_location: "api" # Api source code path - optional
           output_location: "public" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+      - name: HTTP Status
+        uses: lakuapik/gh-actions-http-status@v1
+        with:
+          sites: '["https://ashy-pebble-0fb4fc503.azurestaticapps.net/"]'
+          expected: '[200]'
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -43,3 +48,10 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_PEBBLE_0FB4FC503 }}
           action: "close"
+      - name: HTTP Status
+        uses: lakuapik/gh-actions-http-status@v1
+        with:
+          sites: '["https://ashy-pebble-0fb4fc503.azurestaticapps.net/"]'
+          expected: '[301, 200]'
+
+
