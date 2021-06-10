@@ -1,46 +1,384 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Očkovací registrační systém</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="style.css">
-	</head>
-	<body>
-		<div id="page-container">
-			<header>
-				 <a href="index.html"><h1>Očkovací registrační systém</h1></a>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>FlexStart Bootstrap Template - Index</title>
+  <meta content="" name="description">
+
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: FlexStart - v1.4.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span>Supercool očkovací systém</span>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#about">O očkování</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Kontakt</a></li>
+          <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a> -->
+          <!--   <ul> -->
+          <!--     <li><a href="#">Drop Down 1</a></li> -->
+          <!--     <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a> -->
+          <!--       <ul> -->
+          <!--         <li><a href="#">Deep Drop Down 1</a></li> -->
+          <!--         <li><a href="#">Deep Drop Down 2</a></li> -->
+          <!--         <li><a href="#">Deep Drop Down 3</a></li> -->
+          <!--         <li><a href="#">Deep Drop Down 4</a></li> -->
+          <!--         <li><a href="#">Deep Drop Down 5</a></li> -->
+          <!--       </ul> -->
+          <!--     </li> -->
+          <!--     <li><a href="#">Drop Down 2</a></li> -->
+          <!--     <li><a href="#">Drop Down 3</a></li> -->
+          <!--     <li><a href="#">Drop Down 4</a></li> -->
+          <!--   </ul> -->
+          <!-- </li> -->
+          <li><a class="getstarted scrollto" href="#reservation">Rezervace termínu</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- <!-1- ======= Hero Section ======= -1-> -->
+  <!-- <section id="hero" class="hero d-flex align-items-center"> -->
+
+  <!--   <div class="container"> -->
+  <!--     <div class="row"> -->
+  <!--       <div class="col-lg-6 d-flex flex-column justify-content-center"> -->
+  <!--         <h1 data-aos="fade-up">We offer modern solutions for growing your business</h1> -->
+  <!--         <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with Bootstrap</h2> -->
+  <!--         <div data-aos="fade-up" data-aos-delay="600"> -->
+  <!--           <div class="text-center text-lg-start"> -->
+  <!--             <a href="#about" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center"> -->
+  <!--               <span>Get Started</span> -->
+  <!--               <i class="bi bi-arrow-right"></i> -->
+  <!--             </a> -->
+  <!--           </div> -->
+  <!--         </div> -->
+  <!--       </div> -->
+  <!--       <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200"> -->
+  <!--         <img src="assets/img/hero-img.png" class="img-fluid" alt=""> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+
+  <!-- </section><!-1- End Hero -1-> -->
+
+  <main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="hero d-flex align-items-center about">
+
+		<div class="container" data-aos="fade-up">
+			<header class="section-header">
+				<h3>O očkování</h3>
+				<p>Informace o očkování. Přehledně a na jednom místě.</p>
+			</header>
+			<div class="row gx-0">
+
+          <div class="col-lg-12 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="content">
+              <p>
+				   Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada. Nunc auctor. Aenean id metus id velit ullamcorper pulvinar. Quisque tincidunt scelerisque libero. Integer malesuada. Mauris suscipit, ligula sit amet pharetra semper, nibh ante cursus purus, vel sagittis velit mauris vel metus. Aliquam erat volutpat. Praesent dapibus. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Cras elementum. In rutrum. Nulla pulvinar eleifend sem. Integer tempor. Phasellus rhoncus. Nullam at arcu a est sollicitudin euismod. Etiam quis quam. Suspendisse sagittis ultrices augue. Etiam posuere lacus quis dolor. Nam quis nulla.
+				   </p>
+				   <p>
+					Etiam commodo dui eget wisi. Vivamus luctus egestas leo. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Nullam feugiat, turpis at pulvinar vulputate, erat libero tristique tellus, nec bibendum odio risus sit amet ante. Integer malesuada. Nullam sit amet magna in magna gravida vehicula. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Fusce wisi. Fusce nibh. Nunc dapibus tortor vel mi dapibus sollicitudin. Etiam dictum tincidunt diam. Pellentesque pretium lectus id turpis. Vestibulum erat nulla, ullamcorper nec, rutrum non, nonummy ac, erat. Mauris tincidunt sem sed arcu. Curabitur vitae diam non enim vestibulum interdum. Nullam feugiat, turpis at pulvinar vulputate, erat libero tristique tellus, nec bibendum odio risus sit amet ante. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Nulla non lectus sed nisl molestie malesuada. Morbi leo mi, nonummy eget tristique non, rhoncus non leo.
+					</p>
+					<p>
+					Etiam ligula pede, sagittis quis, interdum ultricies, scelerisque eu. Fusce aliquam vestibulum ipsum. Praesent in mauris eu tortor porttitor accumsan. Fusce tellus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Integer in sapien. Et harum quidem rerum facilis est et expedita distinctio. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Etiam posuere lacus quis dolor. In dapibus augue non sapien. Vivamus porttitor turpis ac leo. Donec ipsum massa, ullamcorper in, auctor et, scelerisque sed, est. Duis condimentum augue id magna semper rutrum. Mauris dictum facilisis augue. Phasellus rhoncus. Etiam posuere lacus quis dolor. Nunc dapibus tortor vel mi dapibus sollicitudin. Nulla accumsan, elit sit amet varius semper, nulla mauris mollis quam, tempor suscipit diam nulla vel leo. Donec iaculis gravida nulla. Duis viverra diam non justo.
+					</p>
+            </div>
+          </div>
+
+          <!-- <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200"> -->
+          <!--   <img src="assets/img/about.jpg" class="img-fluid" alt=""> -->
+          <!-- </div> -->
+
+        </div>
+      </div>
+
+    </section><!-- End About Section -->
+
+
+	<!-- ======= Reservation SEction ======= -->
+	<section id="reservation" class="reservation">
+		<div class="container" data-aos="fade-up">
+			<header class="section-header">
+				<h2>Rezervace</h2>
+				<p>Rezervujte si svůj termín k očkování proti SARS-CoV-2!</p>
 			</header>
 
-			<nav>
-				<ul>
-					<li><a href="index.html">Informace</a></li>
-					<li><a href="logged.html">Výběr termínu</a></li>
-					<li><a href="#">Kontakt</a></li>
-					<li><a href="signup.html">Přihlášení / Registrace</a></li>
-				</ul>
-			</nav>
+			<div class="container">
+				<div class="row text-center justify-content-center">
+					<div class="col">
+						<h3 class="text-center">Vyberte kraj k očkování</h3>
+					</div>
+				</div>
 
-			<div id="content" class="clearfix">
+				<div class="row text-center justify-content-center">
+					<div class="col">
+						<select form="" class="vaccination-select mx-auto">
+							<option value="" disabled selected>Vyberte kraj k očkování</option>
+							<option>Hlavní město Praha</option>
+							<option>Jihočeský kraj</option>
+							<option>Jihomoravský kraj</option>
+							<option>Karlovarský kraj</option>
+							<option>Kraj Vysočina</option>
+							<option>Královéhradecký kraj</option>
+							<option>Liberecký kraj</option>
+							<option>Moravskoslezský kraj</option>
+							<option>Olomoucký kraj</option>
+							<option>Pardubický kraj</option>
+							<option>Plzeňský kraj</option>
+							<option>Středočeský kraj</option>
+							<option>Ústecký kraj</option>
+							<option>Zlínský kraj</option>
+						</select>
+					</div>
+				</div>
 
-				Není v hlavní nabídce: <a href="hospital.html">Nemocnice</a>
+				<div class="row text-center justify-content-center">
+					<div class="col">
+						<h3 class="text-center">Vyberte nemocnici k očkování</h3>
+					</div>
+				</div>
 
-				<h2>Informace o očkování</h2>
-				<p>
-					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada. Nunc auctor. Aenean id metus id velit ullamcorper pulvinar. Quisque tincidunt scelerisque libero. Integer malesuada. Mauris suscipit, ligula sit amet pharetra semper, nibh ante cursus purus, vel sagittis velit mauris vel metus. Aliquam erat volutpat. Praesent dapibus. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Cras elementum. In rutrum. Nulla pulvinar eleifend sem. Integer tempor. Phasellus rhoncus. Nullam at arcu a est sollicitudin euismod. Etiam quis quam. Suspendisse sagittis ultrices augue. Etiam posuere lacus quis dolor. Nam quis nulla.
-				</p>
+				<div class="row text-center justify-content-center">
+					<div class="col">
+						<select name="cars" id="cars" form="carform" class="vaccination-select mx-auto" disabled>
+						</select>
+					</div>
+				</div>
 
-				<h2>Fakt byste se měli nechat naočkovat</h2>
-				<p>
-					Etiam commodo dui eget wisi. Vivamus luctus egestas leo. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Nullam feugiat, turpis at pulvinar vulputate, erat libero tristique tellus, nec bibendum odio risus sit amet ante. Integer malesuada. Nullam sit amet magna in magna gravida vehicula. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Fusce wisi. Fusce nibh. Nunc dapibus tortor vel mi dapibus sollicitudin. Etiam dictum tincidunt diam. Pellentesque pretium lectus id turpis. Vestibulum erat nulla, ullamcorper nec, rutrum non, nonummy ac, erat. Mauris tincidunt sem sed arcu. Curabitur vitae diam non enim vestibulum interdum. Nullam feugiat, turpis at pulvinar vulputate, erat libero tristique tellus, nec bibendum odio risus sit amet ante. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Nulla non lectus sed nisl molestie malesuada. Morbi leo mi, nonummy eget tristique non, rhoncus non leo.
-				</p>
+				<div class="text-center mt-3">
+					<h3>Pátek 11/06/2021</h3>
+					<table class="table borderless">
+						<tbody>
+							<tr><td>12:00</td></tr>
+							<tr><td>12:10</td></tr>
+							<tr><td>12:20</td></tr>
+							<tr><td>12:30</td></tr>
+							<tr><td>12:40</td></tr>
+							<tr><td>12:50</td></tr>
+							<tr><td>13:00</td></tr>
+							<tr><td>13:10</td></tr>
+							<tr><td>13:20</td></tr>
+							<tr><td>13:30</td></tr>
+							<tr><td>13:40</td></tr>
+							<tr><td>13:50</td></tr>
+						</tbody>
+					</table>
+				</div>
 
-				<h2>Další sekce</h2>
-				<p>
-					Etiam ligula pede, sagittis quis, interdum ultricies, scelerisque eu. Fusce aliquam vestibulum ipsum. Praesent in mauris eu tortor porttitor accumsan. Fusce tellus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Integer in sapien. Et harum quidem rerum facilis est et expedita distinctio. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Etiam posuere lacus quis dolor. In dapibus augue non sapien. Vivamus porttitor turpis ac leo. Donec ipsum massa, ullamcorper in, auctor et, scelerisque sed, est. Duis condimentum augue id magna semper rutrum. Mauris dictum facilisis augue. Phasellus rhoncus. Etiam posuere lacus quis dolor. Nunc dapibus tortor vel mi dapibus sollicitudin. Nulla accumsan, elit sit amet varius semper, nulla mauris mollis quam, tempor suscipit diam nulla vel leo. Donec iaculis gravida nulla. Duis viverra diam non justo.
-				</p>
+				<div class="text-center mt-3">
+					<h3>Sobota 12/06/2021</h3>
+					<table class="table borderless">
+						<tbody>
+							<tr><td>12:00</td></tr>
+							<tr><td>12:10</td></tr>
+							<tr><td>12:20</td></tr>
+							<tr><td>12:30</td></tr>
+							<tr><td>12:40</td></tr>
+							<tr><td>12:50</td></tr>
+							<tr><td>13:00</td></tr>
+							<tr><td>13:10</td></tr>
+							<tr><td>13:20</td></tr>
+							<tr><td>13:30</td></tr>
+							<tr><td>13:40</td></tr>
+							<tr><td>13:50</td></tr>
+						</tbody>
+					</table>
+				</div>
+
 			</div>
-			<footer>2021 SuperUltraBombastickyAzureTeam</footer>
 		</div>
-	</body>
+
+	</section>
+
+
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+
+      <div class="container" data-aos="fade-up">
+        <header class="section-header">
+          <h2>Kontakt</h2>
+          <p>Ozvěte se nám</p>
+        </header>
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6">
+
+            <div class="row gy-4">
+              <div class="col-md-6">
+                <div class="info-box">
+                  <i class="bi bi-geo-alt"></i>
+                  <h3>Adresa</h3>
+                  <p>Botanická 68a,<br>602 00 Brno</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="info-box">
+                  <i class="bi bi-telephone"></i>
+                  <h3>Zavolejte nám</h3>
+                  <p>+420 666 42 0000</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="info-box">
+                  <i class="bi bi-envelope"></i>
+                  <h3>Pošlete nám e-mail</h3>
+                  <p>foo@bar.baz</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="info-box">
+                  <i class="bi bi-clock"></i>
+                  <h3>Open Hours</h3>
+                  <p>Monday - Sunday<br>NONSTOP</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+            <form action="forms/contact.php" method="post" class="php-email-form">
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                </div>
+
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                </div>
+
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                </div>
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                  <button type="submit">Send Message</button>
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col footer-info">
+            <a href="index.html" class="logo d-flex align-items-center">
+              <img src="assets/img/logo.png" alt="">
+              <span>Supercool očkovací systém</span>
+            </a>
+            <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+          </div>
+
+		  <div class="col footer-contact text-center text-md-start">
+			  <div class="row gy-1">
+				  <h4>Ozvěte se nám</h4>
+				  <div class="col footer-contact text-center text-md-start">
+					  Botanická 68a<br>
+					  602 00 Brno<br>
+					  Czech Republic
+				  </div>
+				  <div class="col footer-contact text-center text-md-start">
+					  <strong>Telefon:</strong> +420 666 42 0000<br>
+					  <strong>Email:</strong> foo@bar.baz
+				  </div>
+			  </div>
+		  </div>
+		</div>
+	  </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>FlexStart</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
 </html>
