@@ -1,0 +1,10 @@
+{
+	"praha": {"name": "Hlavní město Praha",
+			  "hospitals": {"bulovka" : "Nemocnice Na Bulovce",
+			  	            "fakultni": "Všeobecná fakultní nemocnice v Praze",
+			  	            "motol": "Fakultní nemocnice v Motole",
+			  	            "thomayerova": "Thomayerova nemocnice",
+			  	            "vinohrady": "Fakultní nemocnice Královské Vinohrady",
+			  	            "vojenska": "Ústřední vojenská nemocnice"}
+	}
+}

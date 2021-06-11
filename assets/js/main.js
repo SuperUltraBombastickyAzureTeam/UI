@@ -288,14 +288,13 @@
 
 })();
 
-var currentTab = 0; // Current tab is set to be the first tab (0)
+var currentTab = 1; // Current tab is set to be the first tab (0)
 
 showTab(currentTab); // Display the current tab
 
 function showTab(n) {
   // This function will display the specified tab of the form ...
   var x = document.getElementsByClassName("tab");
-  console.log(n);
   x[n].style.display = "flex";
   // ... and fix the Previous/Next buttons:
   if (n == 0) {
@@ -347,4 +346,56 @@ $( ".prev" ).click(function() {
 
 $( ".next" ).click(function() {
 	nextPrev(1);
+});
+
+
+function modifySelects() {
+	var data = '[{"code": "praha",  "name": "Hlavní město Praha",\
+						   "hospitals": [{"code": "bulovka", "name": "Nemocnice Na Bulovce"},\
+							 {"code": "fakultni", "name": "Všeobecná fakultní nemocnice v Praze"},\
+							 {"code": "motol", "name": "Fakultní nemocnice v Motole"},\
+							 {"code": "thomayerova", "name": "Thomayerova nemocnice"},\
+							 {"code": "vinohrady", "name": "Fakultní nemocnice Královské Vinohrady"},\
+							 {"code": "vojenska", "name": "Ústřední vojenská nemocnice"}]},\
+				 {"code": "jihomoravsky",  "name": "Jihomoravský kraj",\
+							"hospitals": [{"code": "vystaviste", "name": "FN Brno Výstaviště"},\
+							  {"code": "blansko", "name": "Nemocnice Blansko"}]}]';
+
+	json = JSON.parse(data);
+
+	$.each(json, function(i, item) {
+		$( "select#county" ).append(
+			`<option value="${item.code}">${item.name}</option>`
+		);
+		console.log(item);
+	});
+}
+
+function updateHospitals() {
+	$( "select#hospitals" ).prop("disabled", false);
+	$( "select#hospitals" ).html("")
+
+	$.each(json, function(i, item) {
+		console.log(item.hospitals);
+		// console.log($("select#county option:selected")[0]);
+
+		if (item.code == $("select#county option:selected")[0].value) {
+			$.each(item.hospitals, function(i, hospital) {
+				$( "select#hospitals" ).append(
+					`<option value="${item.code}/${hospital.code}">${hospital.name}</option>`
+				);
+			});
+		}
+	});
+}
+
+$(modifySelects);
+$( "select#county" ).change(updateHospitals);
+
+$( "table.first_date td" ).click(function() {
+	$( "input[type=hidden]#first_date" ).val($(this).html());
+});
+
+$( "table.second_date td" ).click(function() {
+	$( "input[type=hidden]#second_date" ).val($(this).html());
 });

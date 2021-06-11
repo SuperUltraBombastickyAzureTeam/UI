@@ -2420,6 +2420,8 @@ table.dates td {
 table.dates td:hover {
 	background-color: #CDA2A4;
 	font-weight: bold;
+	cursor: pointer;
+	user-select: none;
 }
 
 .borderless td, .borderless th {
@@ -2428,4 +2430,8 @@ table.dates td:hover {
 
 .tab {
 	display: none;
+}
+
+div.form-wrapper {
+	min-height: 250px;
 }
