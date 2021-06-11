@@ -554,28 +554,6 @@ section {
   letter-spacing: 1px;
 }
 
-select.vaccination-select {
-	color: #ffffff;
-	padding: 15px 40px;
-	/* border-radius: 10px; */
-	background-color: #4154f1;
-	font-family: "Nunito", sans-serif;
-	font-weight: 600;
-	font-size: 16px;
-	letter-spacing: 1px;
-	min-width: 350px;
-	border: 0px;
-}
-
-select[disabled].vaccination-select {
-	background-color: lightgray;
-	color: #000000;
-}
-
-.borderless td, .borderless th {
-	border: none;
-}
-
 .about .btn-read-more i {
   margin-left: 5px;
   font-size: 18px;
@@ -2389,4 +2367,65 @@ select[disabled].vaccination-select {
   text-align: center;
   font-size: 13px;
   color: #012970;
+}
+
+
+/*--------------------------------------------------------------
+# Custom
+--------------------------------------------------------------*/
+
+select.vaccination-select {
+	color: #ffffff;
+	padding: 15px 40px;
+	/* border-radius: 10px; */
+	background-color: #4154f1;
+	font-family: "Nunito", sans-serif;
+	font-weight: 600;
+	font-size: 16px;
+	letter-spacing: 1px;
+	min-width: 350px;
+	border: 0px;
+}
+
+select[disabled].vaccination-select {
+	background-color: lightgray;
+	color: #000000;
+}
+
+form.registration button[type="submit"], form.registration input[type="button"] {
+  background: #4154f1;
+  border: 0;
+  padding: 10px 30px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 4px;
+}
+
+form.registration button[type="submit"]:hover, form.registration input[type="button"]:hover {
+	background-color: #717ff5;
+}
+
+table.dates td.empty_slots {
+	background-color: #C6E6DB;
+}
+
+table.dates td.empty_slots:hover {
+	background-color: #B8E0D2;
+}
+
+table.dates td {
+	background-color: #D4B0B2;
+}
+
+table.dates td:hover {
+	background-color: #CDA2A4;
+	font-weight: bold;
+}
+
+.borderless td, .borderless th {
+	border: none;
+}
+
+.tab {
+	display: none;
 }
