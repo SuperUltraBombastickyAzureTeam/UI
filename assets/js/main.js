@@ -288,7 +288,7 @@
 
 })();
 
-var currentTab = 1; // Current tab is set to be the first tab (0)
+var currentTab = 0; // Current tab is set to be the first tab (0)
 
 showTab(currentTab); // Display the current tab
 
@@ -393,9 +393,26 @@ $(modifySelects);
 $( "select#county" ).change(updateHospitals);
 
 $( "table.first_date td" ).click(function() {
-	$( "input[type=hidden]#first_date" ).val($(this).html());
+	$( "input[type=hidden]#first_date" ).val($(this).value);
 });
 
 $( "table.second_date td" ).click(function() {
-	$( "input[type=hidden]#second_date" ).val($(this).html());
+	$( "input[type=hidden]#second_date" ).val($(this).value);
+});
+
+$( "table.dates.first_date td" ).click(function() {
+	$( "table.dates.first_date td" ).each(function() {
+		$(this).removeClass("selected_date");
+	});
+
+	$(this).addClass("selected_date");
+});
+
+$( "table.dates.second_date td" ).click(function() {
+	$( "table.dates.second_date td" ).each(function() {
+		$(this).removeClass("selected_date");
+	});
+
+	$(this).addClass("selected_date");
+
 });

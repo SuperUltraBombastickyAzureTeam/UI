@@ -2392,7 +2392,7 @@ select[disabled].vaccination-select {
 	color: #000000;
 }
 
-form.registration button[type="submit"], form.registration input[type="button"] {
+form.registration button[type="submit"], form.registration input[type="button"]  {
   background: #4154f1;
   border: 0;
   padding: 10px 30px;
@@ -2409,7 +2409,7 @@ table.dates td.empty_slots {
 	background-color: #C6E6DB;
 }
 
-table.dates td.empty_slots:hover {
+table.dates td.empty_slots:hover, table.dates td.empty_slots.selected_date {
 	background-color: #B8E0D2;
 }
 
@@ -2417,11 +2417,23 @@ table.dates td {
 	background-color: #D4B0B2;
 }
 
-table.dates td:hover {
+table.dates td:hover, table.dates td.selected_date {
 	background-color: #CDA2A4;
 	font-weight: bold;
 	cursor: pointer;
 	user-select: none;
+}
+
+table.dates td.only_second_term {
+  background: #4154f1;
+  border: 0;
+  padding: 10px 30px;
+  color: #fff;
+  border-radius: 4px;
+}
+
+table.dates td.only_second_term:hover, table.dates td.only_second_term.selected_date {
+	background-color: #717FF5;
 }
 
 .borderless td, .borderless th {
