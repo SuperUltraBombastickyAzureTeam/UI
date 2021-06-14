@@ -312,11 +312,11 @@ function showTab(n) {
   } else {
     document.getElementsByClassName("prev")[0].style.display = "block";
   }
-  if (n == (x.length - 1)) {
-    document.getElementsByClassName("next")[0].innerHTML = "Submit";
-  } else {
-    document.getElementsByClassName("next")[0].innerHTML = "Next";
-  }
+  // if (n == (x.length - 1)) {
+  //   document.getElementsByClassName("next")[0].innerHTML = "Submit";
+  // } else {
+  //   document.getElementsByClassName("next")[0].innerHTML = "Next";
+  // }
   // ... and run a function that displays the correct step indicator:
   // fixStepIndicator(n)
 }
@@ -351,31 +351,65 @@ $( ".next" ).click(function() {
 		if ($( "select#hospitals option:selected" ).length == 0) {
 			return false;
 		}
-		var slots = getSlotsForHospital(selectedHospital).then( function( response, status ) {
-			if (status == "success") {
-				const uniqueDays = [...new Set(response.map(x => x.RowKey.split(" ")[0]))];
 
-				var firstWrapper = $("div#firstDate div.form-wrapper div.dates");
-				var secondWrapper = $("div#firstDate div.form-wrapper div.dates");
+		$( "div#firstDate div.dates" ).html("");
+		$( "input[type=hidden][name=firstDate]").val("");
 
-				uniqueDays.forEach(function (el) {
-					var toAppend = `<h4 class="mt-3">${getDayName(el)} ${el}</h4>\
-					<table class="table borderless dates first_date"><tbody>`
+		var slots = betterGetSlotsForHospital(selectedHospital);
 
-					var slotsForDay = response.filter(function(value) {
-						return value.RowKey.split(" ")[0] == el;
-					})
+		const uniqueDays = [...new Set(slots.map(x => x.RowKey.split(" ")[0]))];
+		var wrapper = $("div#firstDate div.form-wrapper div.dates");
 
-					slotsForDay.forEach(function (slot) {
-						var time = slot.RowKey.split(" ")[1];
-						toAppend += `<tr><td data-val="${el} ${time}">${time}</td></tr>`;
-					});
+		uniqueDays.forEach(function (date) {
+			var toAppend = `<h4 class="mt-3">${getDayName(date)} ${date}</h4>\
+			<table class="table borderless dates first_date"><tbody>`
 
-					toAppend += `</tbody></table>`;
-					firstWrapper.append(toAppend);
-				});
-			}
+			var slotsForDay = slots.filter(function(value) {
+				return value.RowKey.split(" ")[0] == date;
+			})
+
+			slotsForDay.forEach(function (slot) {
+				var time = slot.RowKey.split(" ")[1];
+				toAppend += `<tr><td data-val="${date} ${time}">${time}</td></tr>`;
+			});
+
+			toAppend += `</tbody></table>`;
+			wrapper.append(toAppend);
 		});
+
+	} else if (currentTab == 2) {
+		var firstDate = $( "input[type=hidden][name=firstDate]").val()
+
+		if (firstDate == "") {
+			return false;
+		}
+		$( "div#secondDate div.dates" ).html("");
+		$( "input[type=hidden][name=secondDate]").val("");
+
+		var slots;
+		slots = betterGetSlotsForHospital(selectedHospital, firstDate);
+
+		const uniqueDays = [...new Set(slots.map(x => x.RowKey.split(" ")[0]))];
+		var wrapper = $("div#secondDate div.form-wrapper div.dates");
+
+		uniqueDays.forEach(function (date) {
+			var toAppend = `<h4 class="mt-3">${getDayName(date)} ${date}</h4>\
+			<table class="table borderless dates second_date"><tbody>`
+
+			var slotsForDay = slots.filter(function(value) {
+				return value.RowKey.split(" ")[0] == date;
+			})
+
+			slotsForDay.forEach(function (slot) {
+				var time = slot.RowKey.split(" ")[1];
+				toAppend += `<tr><td data-val="${date} ${time}">${time}</td></tr>`;
+			});
+
+			toAppend += `</tbody></table>`;
+			wrapper.append(toAppend);
+		});
+
+		var secondWrapper = $("div#firstDate div.form-wrapper div.dates");
 	}
 	nextPrev(1);
 });
@@ -406,11 +440,39 @@ function registerUser(UUID) {
 	postRequest(URL, userData, null);
 }
 
-function getSlotsForHospital(hospital) {
+
+function betterGetSlotsForHospital(hospital, date = null) {
+	if (date == null) {
+		date = new Date();
+		date = getDateString(date);
+		date = "2020-06-11 10:00";
+	} else {
+		date = new Date(date);
+		date.setDate(date.getDate() + 42);
+		date = getDateString(date);
+	}
+
+	var params = {"hospital" : hospital, "from": date};
+
+	var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/fetchterms";
+	var res;
+	$.ajax({url: URL, dataType: "json", async: false, data: params, success: function(data, status) {
+		res = data;
+	}})
+	res = res || []
+	return res;
+}
+
+function getDateString(date) {
+	return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
+}
+
+
+function getSlotsForHospital(hospital, minDate = null) {
 	var date = new Date();
 	date = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
+	date = "2020-06-11 10:00";
 
-	date = "2021-06-11 10:00";
 	var params = {"hospital" : hospital, "from": date};
 
 	var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/fetchterms";
