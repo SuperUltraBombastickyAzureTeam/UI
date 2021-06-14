@@ -2377,7 +2377,23 @@ section {
 select.vaccination-select {
 	color: #ffffff;
 	padding: 15px 40px;
-	/* border-radius: 10px; */
+	background-color: #4154f1;
+	font-family: "Nunito", sans-serif;
+	font-weight: 600;
+	font-size: 16px;
+	letter-spacing: 1px;
+	min-width: 350px;
+	border: 0px;
+}
+
+select.vaccination-select:focus {
+	color: #ffffff;
+	background-color: #4154f1;
+}
+
+select.vaccination-select {
+	color: #ffffff;
+	padding: 15px 40px;
 	background-color: #4154f1;
 	font-family: "Nunito", sans-serif;
 	font-weight: 600;
@@ -2392,7 +2408,7 @@ select[disabled].vaccination-select {
 	color: #000000;
 }
 
-form.registration button[type="submit"], form.registration input[type="button"]  {
+form.registration button[type="submit"], form.registration input[type="button"], form.registration input[type="submit"]  {
   background: #4154f1;
   border: 0;
   padding: 10px 30px;
@@ -2405,39 +2421,26 @@ form.registration button[type="submit"]:hover, form.registration input[type="but
 	background-color: #717ff5;
 }
 
-table.dates td.empty_slots {
-	background-color: #C6E6DB;
-}
-
-table.dates td.empty_slots:hover, table.dates td.empty_slots.selected_date {
-	background-color: #B8E0D2;
-}
-
 table.dates td {
-	background-color: #D4B0B2;
+	background-color: #4154f1;
+	color: #ffffff;
+	padding: 15px 40px;
+	font-family: "Nunito", sans-serif;
+	font-weight: 600;
+	font-size: 16px;
+	letter-spacing: 1px;
+	border-bottom: 1px solid #ffffff;
 }
 
 table.dates td:hover, table.dates td.selected_date {
-	background-color: #CDA2A4;
+	background-color: #717ff5;
 	font-weight: bold;
 	cursor: pointer;
 	user-select: none;
 }
 
-table.dates td.only_second_term {
-  background: #4154f1;
-  border: 0;
-  padding: 10px 30px;
-  color: #fff;
-  border-radius: 4px;
-}
-
-table.dates td.only_second_term:hover, table.dates td.only_second_term.selected_date {
-	background-color: #717FF5;
-}
-
 .borderless td, .borderless th {
-	border: none;
+	border-bottom: 1px solid #ffffff;
 }
 
 .tab {

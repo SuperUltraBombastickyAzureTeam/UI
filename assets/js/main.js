@@ -288,8 +288,18 @@
 
 })();
 
-var currentTab = 0; // Current tab is set to be the first tab (0)
 
+
+function uuid4() {
+    const ho = (n, p) => n.toString(16).padStart(p, 0); /// Return the hexadecimal text representation of number `n`, padded with zeroes to be of length `p`
+    const view = new DataView(new ArrayBuffer(16)); /// Create a view backed by a 16-byte buffer
+    crypto.getRandomValues(new Uint8Array(view.buffer)); /// Fill the buffer with random data
+    view.setUint8(6, (view.getUint8(6) & 0xf) | 0x40); /// Patch the 6th byte to reflect a version 4 UUID
+    view.setUint8(8, (view.getUint8(8) & 0x3f) | 0x80); /// Patch the 8th byte to reflect a variant 1 UUID (version 4 UUIDs are)
+    return `${ho(view.getUint32(0), 8)}-${ho(view.getUint16(4), 4)}-${ho(view.getUint16(6), 4)}-${ho(view.getUint16(8), 4)}-${ho(view.getUint32(10), 8)}${ho(view.getUint16(14), 4)}`; /// Compile the canonical textual form from the array data
+}
+
+var currentTab = 1; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
 
 function showTab(n) {
@@ -321,98 +331,166 @@ function nextPrev(n) {
   // Increase or decrease the current tab by 1:
   currentTab = currentTab + n;
   // if you have reached the end of the form... :
+
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("regForm").submit();
+    // document.getElementById("regForm").submit();
     return false;
   }
   // Otherwise, display the correct tab:
   showTab(currentTab);
 }
 
-//function fixStepIndicator(n) {
-//  // This function removes the "active" class of all steps...
-//  var i, x = document.getElementsByClassName("step");
-//  for (i = 0; i < x.length; i++) {
-//    x[i].className = x[i].className.replace(" active", "");
-//  }
-//  //... and adds the "active" class to the current step:
-//  x[n].className += " active";
-//}
-
 $( ".prev" ).click(function() {
 	nextPrev(-1);
 });
 
 $( ".next" ).click(function() {
+	var selectedHospital = $( "select#hospitals option:selected" ).val();
+	if (currentTab == 1) {
+		if ($( "select#hospitals option:selected" ).length == 0) {
+			return false;
+		}
+		var slots = getSlotsForHospital(selectedHospital).then( function( response, status ) {
+			if (status == "success") {
+				const uniqueDays = [...new Set(response.map(x => x.RowKey.split(" ")[0]))];
+
+				var firstWrapper = $("div#firstDate div.form-wrapper div.dates");
+				var secondWrapper = $("div#firstDate div.form-wrapper div.dates");
+
+				uniqueDays.forEach(function (el) {
+					var toAppend = `<h4 class="mt-3">${getDayName(el)} ${el}</h4>\
+					<table class="table borderless dates first_date"><tbody>`
+
+					var slotsForDay = response.filter(function(value) {
+						return value.RowKey.split(" ")[0] == el;
+					})
+
+					slotsForDay.forEach(function (slot) {
+						var time = slot.RowKey.split(" ")[1];
+						toAppend += `<tr><td data-val="${el} ${time}">${time}</td></tr>`;
+					});
+
+					toAppend += `</tbody></table>`;
+					firstWrapper.append(toAppend);
+				});
+			}
+		});
+	}
 	nextPrev(1);
 });
 
+function getDayName(dateString) {
+	var days = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota", "Neděle"];
+	var d = new Date(dateString);
 
-function modifySelects() {
-	var data = '[{"code": "praha",  "name": "Hlavní město Praha",\
-						   "hospitals": [{"code": "bulovka", "name": "Nemocnice Na Bulovce"},\
-							 {"code": "fakultni", "name": "Všeobecná fakultní nemocnice v Praze"},\
-							 {"code": "motol", "name": "Fakultní nemocnice v Motole"},\
-							 {"code": "thomayerova", "name": "Thomayerova nemocnice"},\
-							 {"code": "vinohrady", "name": "Fakultní nemocnice Královské Vinohrady"},\
-							 {"code": "vojenska", "name": "Ústřední vojenská nemocnice"}]},\
-				 {"code": "jihomoravsky",  "name": "Jihomoravský kraj",\
-							"hospitals": [{"code": "vystaviste", "name": "FN Brno Výstaviště"},\
-							  {"code": "blansko", "name": "Nemocnice Blansko"}]}]';
+	return days[d.getDay() - 1 % 7];
+}
 
-	json = JSON.parse(data);
+function registerUser(UUID) {
+	var formData = new FormData(document.getElementById("regForm"));
+	var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/FormRegisterPatient"
 
-	$.each(json, function(i, item) {
-		$( "select#county" ).append(
-			`<option value="${item.code}">${item.name}</option>`
-		);
-		console.log(item);
+	var userFields = ["firstName", "surname", "birthDate", "residence", "phoneNumber", "mail", "insuranceNumber"];
+	var userData = {"guid": uuid};
+
+	userData["comment"] = $( "form#regForm textarea[name=comment]" ).val()
+
+	userFields.forEach(function(element) {
+		if (element == "insuranceNumber") {
+			userData[element] = parseInt($( `form#regForm input[name=${element}]` ).val());
+		} else {
+			userData[element] = $( `form#regForm input[name=${element}]` ).val();
+		}
+	});
+	postRequest(URL, userData, null);
+}
+
+function getSlotsForHospital(hospital) {
+	var date = new Date();
+	date = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
+
+	date = "2021-06-11 10:00";
+	var params = {"hospital" : hospital, "from": date};
+
+	var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/fetchterms";
+	return $.getJSON(URL, params);
+}
+
+function postRequest(url, data, callback) {
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			typeof callback === 'function' && callback();
+		}
+	};
+
+	var dataSend = JSON.stringify(data);
+	xhr.send(dataSend);
+}
+
+function registerUserForTerms(uuid) {
+	var hospital = $( "select#hospitals option:selected" )[0].value;
+	var firstDate = $( "form#regForm input[name=firstDate]" ).val();
+	var secondDate = $( "form#regForm input[name=secondDate]" ).val();
+}
+
+function fillCounties() {
+	const URL = "https://pa200-vacc-funtions.azurewebsites.net/api/SelectHospital";
+	$.getJSON(URL, function(result) {
+		countiesHospitals = result;
+		
+		Object.keys(countiesHospitals).forEach(function(county) {
+			$( "select#county" ).append( `<option value="${county}">${county}</option>` );
+		});
 	});
 }
 
 function updateHospitals() {
 	$( "select#hospitals" ).prop("disabled", false);
-	$( "select#hospitals" ).html("")
+	$( "select#hospitals" ).html("");
 
-	$.each(json, function(i, item) {
-		console.log(item.hospitals);
-		// console.log($("select#county option:selected")[0]);
-
-		if (item.code == $("select#county option:selected")[0].value) {
-			$.each(item.hospitals, function(i, hospital) {
-				$( "select#hospitals" ).append(
-					`<option value="${item.code}/${hospital.code}">${hospital.name}</option>`
-				);
-			});
-		}
+	selectedCounty = $( "select#county option:selected" )[0].value;
+	countiesHospitals[selectedCounty].forEach(function(hospital) {
+		$( "select#hospitals" ).append( `<option value="${hospital.code}">${hospital.code}</option>` );
 	});
 }
 
-$(modifySelects);
+$(function() {
+	fillCounties();
+
+	$( "form#regForm" ).submit(function(e) {
+		e.preventDefault();
+
+		uuid = uuid4();
+		registerUser(uuid);
+		registerUserForTerms(uuid);
+	});
+});
+
+
+
 $( "select#county" ).change(updateHospitals);
 
-$( "table.first_date td" ).click(function() {
-	$( "input[type=hidden]#first_date" ).val($(this).value);
-});
+$(document).on('click', 'table.dates.first_date td', function() {
+	$( "input[type=hidden][name=firstDate]" ).val($(this).data("val"));
 
-$( "table.second_date td" ).click(function() {
-	$( "input[type=hidden]#second_date" ).val($(this).value);
-});
-
-$( "table.dates.first_date td" ).click(function() {
 	$( "table.dates.first_date td" ).each(function() {
 		$(this).removeClass("selected_date");
 	});
-
 	$(this).addClass("selected_date");
+
 });
 
-$( "table.dates.second_date td" ).click(function() {
+$(document).on('click', 'table.dates.second_date td', function() {
+	$( "input[type=hidden][name=secondDate]" ).val($(this).data("val"));
+
 	$( "table.dates.second_date td" ).each(function() {
 		$(this).removeClass("selected_date");
 	});
-
 	$(this).addClass("selected_date");
 
 });

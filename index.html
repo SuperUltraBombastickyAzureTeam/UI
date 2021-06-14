@@ -25,6 +25,10 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
+
+  <!-- Require.js -->
+  <!-- <script data-main="assets/js/main" src="assets/js/require.js"></script> -->
+
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
@@ -73,14 +77,14 @@
 			<div class="container">
 				<div class="d-flex justify-content-center">
 					<div class="col-lg-6">
-						<form action="forms/contact.php" method="post" class="registration" id="regForm">
+						<form class="registration needs-validation" id="regForm" novalidate>
 							<div class="row gy-3 tab">
 								<div class="form-wrapper">
 									<h3 class="text-center">Informace o očkovaném</h3>
 
 									<fieldset>
-										<label for="first_name">Jméno</label>
-										<input type="text" name="first_name" id="first_name" class="form-control" placeholder="Jméno" required>
+										<label for="firstName">Jméno</label>
+										<input type="text" name="firstName" id="first_name" class="form-control" placeholder="Jméno" required>
 									</fieldset>
 
 									<fieldset>
@@ -89,29 +93,36 @@
 									</fieldset>
 
 									<fieldset>
-										<label for="insurance_number">Číslo pojištěnce</label>
-										<input type="text" name="insurance_number" id="insurance_number" class="form-control" placeholder="Číslo pojištěnce" required>
+										<label for="birthDate">Datum narození</label>
+										<input type="date" name="birthDate" id="date_of_birth" class="form-control" required>
 									</fieldset>
 
 									<fieldset>
-										<label for="address">Adresa trvalého bydliště</label>
-										<input type="text" name="address" id="address" class="form-control" placeholder="Adresa trvalého bydliště" required>
+										<label for="residence">Adresa trvalého bydliště</label>
+										<input type="text" name="residence" id="address" class="form-control" placeholder="Adresa trvalého bydliště" required>
 									</fieldset>
 
 									<fieldset>
-										<label for="phone">Telefonní číslo</label>
-										<input type="tel" name="phone" id="phone" class="form-control" minlength="9" placeholder="Telefonní číslo" required>
+										<label for="phoneNumber">Telefonní číslo</label>
+										<input type="tel" name="phoneNumber" id="phone" class="form-control" minlength="9" placeholder="Telefonní číslo" required>
 									</fieldset>
 
 									<fieldset>
-										<label for="email">E-mail</label>
-										<input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+										<label for="mail">E-mail</label>
+										<input type="email" name="mail" id="email" class="form-control" placeholder="Email" required>
 									</fieldset>
 
 									<fieldset>
 										<label for="comment">Komentář?</label>
 										<textarea name="comment" id="comment" rows="6" class="form-control" placeholder="Komentář?"></textarea>
 									</fieldset>
+
+
+									<fieldset>
+										<label for="insuranceNumber">Číslo pojištěnce</label>
+										<input type="text" name="insuranceNumber" id="insurance_number" class="form-control" placeholder="Číslo pojištěnce" required>
+									</fieldset>
+
 								</div>
 
 								<div class="col">
@@ -126,13 +137,13 @@
 								<div class="form-wrapper">
 									<h3>Kraj očkování</h3>
 
-									<select class="vaccination-select w-100" id="county">
+									<select class="w-100 form-control vaccination-select" id="county" required>
 										<option value="" disabled selected>Vyberte kraj</option>
 									</select>
 
 									<h3 class="mt-3">Nemocnice</h3>
 
-									<select name="hospitals" class="vaccination-select w-100" id="hospitals" disabled>
+									<select name="hospitals" class="vaccination-select w-100 form-control" id="hospitals" disabled required>
 									</select>
 								</div>
 								<div class="col">
@@ -144,55 +155,13 @@
 							</div>
 
 
-							<div class="row gy-3 mt-3 tab text-center justify-content-center">
+							<div class="row gy-3 mt-3 tab text-center justify-content-center" id="firstDate">
 								<div class="form-wrapper">
 									<h3>První termín</h3>
+									<input type="hidden" name="firstDate" value="">
 
-
-									<!-- <button class="only_one_term w-100" value="0">Registruji se jen na druhé očkování</button> -->
-									<table class="table borderless dates first_date">
-										<tbody>
-											<tr><td class="only_second_term" value="0">Registruji se jen na druhé očkování</td></tr>
-										</tbody>
-									</table>
-
-									<input type="hidden" id="first_date" name="first_date" value="">
-
-									<h4 class="mt-3">Pátek 11/06/2021</h4>
-									<table class="table borderless dates first_date">
-										<tbody>
-											<tr><td class="empty_slots" value="12:00">12:00</td></tr>
-											<tr><td value="12:10">12:10</td></tr>
-											<tr><td value="12:10">12:20</td></tr>
-											<tr><td value="12:30">12:30</td></tr>
-											<tr><td value="12:40">12:40</td></tr>
-											<tr><td value="12:50">12:50</td></tr>
-											<tr><td value="13:00">13:00</td></tr>
-											<tr><td value="13:10">13:10</td></tr>
-											<tr><td value="13:20">13:20</td></tr>
-											<tr><td value="13:30">13:30</td></tr>
-											<tr><td value="13:40">13:40</td></tr>
-											<tr><td value="13:50">13:50</td></tr>
-										</tbody>
-									</table>
-
-									<h4>Sobota 12/06/2021</h4>
-									<table class="table borderless dates first_date">
-										<tbody>
-											<tr><td value="12:00">12:00</td></tr>
-											<tr><td value="12:10">12:10</td></tr>
-											<tr><td value="12:20">12:20</td></tr>
-											<tr><td value="12:30">12:30</td></tr>
-											<tr><td value="12:40">12:40</td></tr>
-											<tr><td value="12:50">12:50</td></tr>
-											<tr><td value="13:00">13:00</td></tr>
-											<tr><td value="13:10">13:10</td></tr>
-											<tr><td value="13:20">13:20</td></tr>
-											<tr><td value="13:30">13:30</td></tr>
-											<tr><td value="13:40">13:40</td></tr>
-											<tr><td value="13:50">13:50</td></tr>
-										</tbody>
-									</table>
+									<div class="dates">
+									</div>
 								</div>
 
 								<div class="col">
@@ -203,53 +172,21 @@
 								</div>
 							</div>
 
-							<div class="row gy-3 mt-3 tab text-center justify-content-center">
+							<div class="row gy-3 mt-3 tab text-center justify-content-center" id="secondDate">
 								<div class="form-wrapper">
 									<h3>Druhý termín</h3>
-									<input type="hidden" id="second_date" name="second_date" value="">
+									<input type="hidden" id="second_date" name="secondDate" value="">
 
-									<h4>Pátek 11/06/2021</h4>
-									<table class="table borderless dates second_date">
-										<tbody>
-											<tr><td class="empty_slots">12:00</td></tr>
-											<tr><td>12:10</td></tr>
-											<tr><td>12:20</td></tr>
-											<tr><td>12:30</td></tr>
-											<tr><td>12:40</td></tr>
-											<tr><td>12:50</td></tr>
-											<tr><td>13:00</td></tr>
-											<tr><td>13:10</td></tr>
-											<tr><td>13:20</td></tr>
-											<tr><td>13:30</td></tr>
-											<tr><td>13:40</td></tr>
-											<tr><td>13:50</td></tr>
-										</tbody>
-									</table>
+									<div class="dates">
 
-									<h4>Sobota 12/06/2021</h4>
-									<table class="table borderless dates second_date">
-										<tbody>
-											<tr><td>12:00</td></tr>
-											<tr><td>12:10</td></tr>
-											<tr><td>12:20</td></tr>
-											<tr><td>12:30</td></tr>
-											<tr><td>12:40</td></tr>
-											<tr><td>12:50</td></tr>
-											<tr><td>13:00</td></tr>
-											<tr><td>13:10</td></tr>
-											<tr><td>13:20</td></tr>
-											<tr><td>13:30</td></tr>
-											<tr><td>13:40</td></tr>
-											<tr><td>13:50</td></tr>
-										</tbody>
-									</table>
+									</div>
 								</div>
 
 								<div class="col">
 									<input type="button" name="prev" class="w-100 prev" value="Předchozí krok"/>
 								</div>
 								<div class="col">
-									<input type="button" name="next" class="w-100 next" value="Registrovat"/>
+									<input type="submit" name="submit" class="w-100" value="Registrovat"/>
 								</div>
 							</div>
 
@@ -261,26 +198,20 @@
 
 	</section>
 
-	<!-- <section id="missed" class="d-flex mt-5 align-items-center reservation"> -->
-	<!-- 	<div class="container" data-aos="fade-up"> -->
-	<!-- 		<header class="section-header"> -->
-	<!-- 			<h2>Promeškané očkování</h2> -->
-	<!-- 			<p>Z nějakého důvodu jste se nedostavili na registrovaný -->
-	<!-- 				očkovací termín?</p> -->
-	<!-- 		</header> -->
+	<section id="missed" class="d-flex mt-5 align-items-center reservation">
+		<div class="container" data-aos="fade-up">
+			<header class="section-header">
+				<h2>Promeškané očkování</h2>
+				<p>Z nějakého důvodu jste se nedostavili na registrovaný
+					očkovací termín?</p>
+			</header>
 
-	<!-- 		<div class="container"> -->
-	<!-- 			<p> -->
-	<!-- 				Pokud jste z jakéhokoliv důvodu nemohli dorazit na -->
-	<!-- 				zaregistrované očkování, napište nám na <a -->
-	<!-- 												   href="mailto:foo@bar.baz">foo@bar.baz</a> -->
-	<!-- 				a nezapomeňte uvést, jestli to měla být první, nebo druhá dávka. -->
-	<!-- 				Nebo nám zavolejte na +420 666 42 0000. -->
-	<!-- 			</p> -->
-	<!-- 		</div> -->
-
-
-	<!-- </section> -->
+			<div class="container">
+				<p>
+					Pokud jste z jakéhokoliv důvodu nemohli dorazit na zaregistrované očkování, napište nám na <a href="mailto:foo@bar.baz">foo@bar.baz</a> a nezapomeňte uvést, jestli to měla být první, nebo druhá dávka.  Nebo nám zavolejte na +420 666 42 0000.
+				</p>
+			</div>
+	</section>
 
 
     <!-- ======= Contact Section ======= -->
@@ -396,6 +327,8 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+
+  <!-- <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
