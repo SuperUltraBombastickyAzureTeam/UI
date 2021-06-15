@@ -353,16 +353,22 @@ $( ".next" ).click(function() {
 			return false;
 		}
 
+
 		const uniqueDays = [...new Set(slots.map(x => x.RowKey.split(" ")[0]))];
 		var wrapper = $("div#firstDate div.form-wrapper div.dates");
 
 		uniqueDays.forEach(function (date) {
+			var slotsForDay = slots.filter(function(value) {
+				return value.RowKey.split(" ")[0] == date && value.Current < value.Max;
+			})
+
+			if (slotsForDay.length == 0) {
+				return;
+			}
+
 			var toAppend = `<h4 class="mt-3">${getDayName(date)} ${date}</h4>\
 			<table class="table borderless dates first_date"><tbody>`
 
-			var slotsForDay = slots.filter(function(value) {
-				return value.RowKey.split(" ")[0] == date;
-			})
 
 			slotsForDay.forEach(function (slot) {
 				var time = slot.RowKey.split(" ")[1];
@@ -372,7 +378,6 @@ $( ".next" ).click(function() {
 			toAppend += `</tbody></table>`;
 			wrapper.append(toAppend);
 		});
-
 	} else if (currentTab == 2) {
 		var firstDate = $( "input[type=hidden][name=firstDate]").val()
 
@@ -389,6 +394,14 @@ $( ".next" ).click(function() {
 		var wrapper = $("div#secondDate div.form-wrapper div.dates");
 
 		uniqueDays.forEach(function (date) {
+			var slotsForDay = slots.filter(function(value) {
+				return value.RowKey.split(" ")[0] == date && value.Current < value.Max;
+			})
+
+			if (slotsForDay.length == 0) {
+				return;
+			}
+
 			var toAppend = `<h4 class="mt-3">${getDayName(date)} ${date}</h4>\
 			<table class="table borderless dates second_date"><tbody>`
 
@@ -599,6 +612,7 @@ function login() {
 
 		expire.setTime( today.getTime() + 60 * 60 * 1000 * 24 * number_of_days ); // Current time + (60 sec * 60 min * 1000 milisecs * 24 hours * number_of_days)
 
+		// TODO: hardcoded value
 		// document.cookie = cookie_name + "=" + escape(data["username"]) + "; expires=" + expire.toGMTString() + "SameSite=None; Secure";
 
 		document.cookie = cookie_name + "=" + escape("Fakultní nemocnice Brno") + "; expires=" + expire.toGMTString() + "SameSite=None; Secure";
@@ -644,11 +658,17 @@ function fillPatientsTable() {
 			id = patient;
 
 			var patientInfo = getInfoAboutPatient(patient, null, false);
-			if (patientInfo != null) {
-				console.log(patientInfo);
+			var vaccinationDates = "";
+
+			if (patientInfo != null && patientInfo["data"] != null) {
+
 				patientInfo = JSON.parse(patientInfo.data)
+				vaccinationDates = patientInfo["vaccinationDates"] || vaccinationDates;
+
 				id = `${patientInfo["firstName"]} ${patientInfo["surname"]}`;
 			}
+
+			vaccinationDates = vaccinationDates.split(";");
 
 			var row = `<tr data-datetime="${dateTime}" data-uuid="${patient}">
 						<td>${dateTime}</td>
@@ -656,10 +676,13 @@ function fillPatientsTable() {
 						<td>
 						 <button type="button" class="w-100 infoButton" data-datetime="${dateTime}" data-uuid="${patient}" data-bs-toggle="modal" data-bs-target="#patientInfo">Zobrazit informace</button>
 						</td>
-						<td>
-							<button type="button" class="w-100 confirmButton" data-datetime="${dateTime}" data-uuid="${patient}" data-bs-toggle="modal" data-bs-target="#confirmVaccination">Potvrdit očkování</button>
-						</td>
-					   </tr>`
+						<td>`
+
+			if (!vaccinationDates.includes(dateTime)) {
+				row += `<button type="button" class="w-100 confirmButton" data-datetime="${dateTime}" data-uuid="${patient}" data-bs-toggle="modal" data-bs-target="#confirmVaccination">Potvrdit očkování</button>`
+			}
+							
+			row += `</td></tr>`;
 			table.append(row);
 		});
 	});
@@ -740,7 +763,6 @@ function csvToJSON(content) {
 	});
 
 	result["terms"] = terms;
-
 	return result;
 }
 
@@ -756,6 +778,7 @@ function readCSV() {
 		// batch upload endpoint
 		var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/insertterms";
 		postRequest(URL, contents, null);
+		location.reload();
 	};
 	// start reading the file. When it is done, calls the onload event defined above.
 	reader.readAsBinaryString(file);
@@ -767,8 +790,9 @@ function confirmVaccination(uuid, hospitalName, vaccinationDate) {
 				"hospitalName": hospitalName,
 				"vaccinationDate": vaccinationDate};
 
-	$( "#confirmVaccination" ).modal("hide");
 	response = postRequest(URL, data, null);
+	$( "#confirmVaccination" ).modal("hide");
+	$( `tr[data-datetime="${vaccinationDate}"][data-uuid="${uuid}"] button.confirmButton` ).hide();
 }
 
 $(function() {
@@ -789,6 +813,7 @@ $(function() {
 		if (response["status"] == 200) {
 			data = response["data"];
 			registerUserForTerms(data);
+			location.reload();
 		}
 	});
 
@@ -843,8 +868,6 @@ $(document).on("click", "button.confirmButton", function() {
 
 $(document).on("click", "button#yes", function() {
 	confirmVaccination($(this).data("uuid"), getCookie("login"), $(this).data("datetime"));
-	var test = $( `table#patientsList tbody tr['data-datetime=\"${$(this).data("datetime")}\"']` );
-	console.log(test);
 });
 
 $(document).on('click', 'table#patientsList button.infoButton', function() {
