@@ -2408,7 +2408,7 @@ select[disabled].vaccination-select {
 	color: #000000;
 }
 
-form.registration button[type="submit"], form.registration input[type="button"], form.registration input[type="submit"]  {
+input[type="button"], input[type="submit"], button {
   background: #4154f1;
   border: 0;
   padding: 10px 30px;
@@ -2417,8 +2417,12 @@ form.registration button[type="submit"], form.registration input[type="button"],
   border-radius: 4px;
 }
 
-form.registration button[type="submit"]:hover, form.registration input[type="button"]:hover {
+button:hover, input[type="submit"]:hover, input[type="button"]:hover {
 	background-color: #717ff5;
+}
+
+table#patientsList button {
+	padding: 5px 30px;
 }
 
 table.dates td {
@@ -2439,6 +2443,22 @@ table.dates td:hover, table.dates td.selected_date {
 	user-select: none;
 }
 
+button.no {
+	background-color: #EF5D60;
+}
+
+button.no:hover {
+	background-color: #f27d7f;
+}
+
+button.yes {
+	background-color: #679436;
+}
+
+button.yes:hover {
+	background-color: #72a53b;
+}
+
 .borderless td, .borderless th {
 	border-bottom: 1px solid #ffffff;
 }
@@ -2449,4 +2469,8 @@ table.dates td:hover, table.dates td.selected_date {
 
 div.form-wrapper {
 	min-height: 250px;
+}
+
+div.modal-body ul {
+	list-style-type: none;
 }

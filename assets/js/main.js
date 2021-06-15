@@ -288,9 +288,9 @@
 
 })();
 
-
-
 function uuid4() {
+	// taken from stackoverflow
+
     const ho = (n, p) => n.toString(16).padStart(p, 0); /// Return the hexadecimal text representation of number `n`, padded with zeroes to be of length `p`
     const view = new DataView(new ArrayBuffer(16)); /// Create a view backed by a 16-byte buffer
     crypto.getRandomValues(new Uint8Array(view.buffer)); /// Fill the buffer with random data
@@ -299,10 +299,14 @@ function uuid4() {
     return `${ho(view.getUint32(0), 8)}-${ho(view.getUint16(4), 4)}-${ho(view.getUint16(6), 4)}-${ho(view.getUint16(8), 4)}-${ho(view.getUint32(10), 8)}${ho(view.getUint16(14), 4)}`; /// Compile the canonical textual form from the array data
 }
 
-var currentTab = 1; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
+var currentTab = 0; // Current tab is set to be the first tab (0)
+if (window.location.href.includes("index.html")) {
+	showTab(currentTab); // Display the current tab
+}
 
 function showTab(n) {
+  // taken from demo
+
   // This function will display the specified tab of the form ...
   var x = document.getElementsByClassName("tab");
   x[n].style.display = "flex";
@@ -312,13 +316,6 @@ function showTab(n) {
   } else {
     document.getElementsByClassName("prev")[0].style.display = "block";
   }
-  // if (n == (x.length - 1)) {
-  //   document.getElementsByClassName("next")[0].innerHTML = "Submit";
-  // } else {
-  //   document.getElementsByClassName("next")[0].innerHTML = "Next";
-  // }
-  // ... and run a function that displays the correct step indicator:
-  // fixStepIndicator(n)
 }
 
 function nextPrev(n) {
@@ -355,7 +352,10 @@ $( ".next" ).click(function() {
 		$( "div#firstDate div.dates" ).html("");
 		$( "input[type=hidden][name=firstDate]").val("");
 
-		var slots = betterGetSlotsForHospital(selectedHospital);
+		var slots = getSlotsForHospital(selectedHospital);
+		if (slots.length == 0) {
+			return false;
+		}
 
 		const uniqueDays = [...new Set(slots.map(x => x.RowKey.split(" ")[0]))];
 		var wrapper = $("div#firstDate div.form-wrapper div.dates");
@@ -387,7 +387,7 @@ $( ".next" ).click(function() {
 		$( "input[type=hidden][name=secondDate]").val("");
 
 		var slots;
-		slots = betterGetSlotsForHospital(selectedHospital, firstDate);
+		slots = getSlotsForHospital(selectedHospital, firstDate);
 
 		const uniqueDays = [...new Set(slots.map(x => x.RowKey.split(" ")[0]))];
 		var wrapper = $("div#secondDate div.form-wrapper div.dates");
@@ -437,11 +437,12 @@ function registerUser(UUID) {
 			userData[element] = $( `form#regForm input[name=${element}]` ).val();
 		}
 	});
-	postRequest(URL, userData, null);
+	var response = postRequest(URL, userData, null, false);
+	return response;
 }
 
 
-function betterGetSlotsForHospital(hospital, date = null) {
+function getSlotsForHospital(hospital, date = null) {
 	if (date == null) {
 		date = new Date();
 		date = getDateString(date);
@@ -467,37 +468,84 @@ function getDateString(date) {
 	return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
 }
 
-
-function getSlotsForHospital(hospital, minDate = null) {
-	var date = new Date();
-	date = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
-	date = "2020-06-11 10:00";
-
-	var params = {"hospital" : hospital, "from": date};
-
-	var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/fetchterms";
-	return $.getJSON(URL, params);
-}
-
-function postRequest(url, data, callback) {
+function postRequest(url, data, callback, async = true) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
+	xhr.open("POST", url, async);
 	xhr.setRequestHeader("Content-Type", "application/json");
 
+	var response = {}
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState === 4 && xhr.status === 200) {
+			response["status"] = xhr.status;
+			response["data"] = xhr.responseText;
+
 			typeof callback === 'function' && callback();
 		}
 	};
 
 	var dataSend = JSON.stringify(data);
 	xhr.send(dataSend);
+	return response;
 }
 
-function registerUserForTerms(uuid) {
+function registerUserForTerms(data) {
+	uuid = data["guid"];
+	vaccinatedAtHospital = data["hospital"];
+	firstVaccination = data["firstTerm"];
+	secondVaccination = data["secondTerm"];
+
+	URL = "https://pa200-vacc-funtions.azurewebsites.net/api/termregisterpatient";
+
 	var hospital = $( "select#hospitals option:selected" )[0].value;
-	var firstDate = $( "form#regForm input[name=firstDate]" ).val();
-	var secondDate = $( "form#regForm input[name=secondDate]" ).val();
+	if (hospital != vaccinatedAtHospital) {
+		// TODO: proper alert
+		console.log("hospital != vaccinatedAtHospital");
+		return false;
+	}
+
+	if (firstVaccination != undefined && secondVaccination != undefined) {
+		// TODO: proper alert
+		// both vaccines given
+		console.log("firstVaccination != undefined && secondVaccination != undefined")
+		return false;
+	} else if (firstVaccination == undefined && secondVaccination != undefined) {
+		// TODO: proper alert
+		// major bug
+		console.log("firstVaccination == undefined && secondVaccination != undefined")
+		return false;
+	} else if (firstVaccination == undefined && secondVaccination == undefined) {
+		// no vaccines given
+		var date1 = $( "form#regForm input[name=firstDate]" ).val();
+		var date2 = $( "form#regForm input[name=secondDate]" ).val();
+
+		var data1 = {"hospital": hospital, "datetime": date1, "guid": uuid};
+		var data2 = {"hospital": hospital, "datetime": date2, "guid": uuid};
+
+		console.log("firstVaccination == undefined && secondVaccination == undefined")
+
+		postRequest(URL, data1, null, true);
+		postRequest(URL, data2, null, true);
+	} else if (firstVaccination != null) {
+
+		console.log("firstVaccination != null");
+
+		// only first vaccine given
+		// TODO: create no-option-selected firstDate button
+		var date1 = new Date(firstVaccination);
+		var date2 = $( "form#regForm input[name=secondDate]" ).val();
+
+		var date = new Date(date2);
+		date1.setDate(date1.getDate() + 42);
+		if (date < date1) {
+			console.log("date < date1");
+			// TODO: proper alert
+			// there needs to be a 6-week period between vaccines
+			return false
+		}
+
+		var data2 = {"hospital": hospital, "datetime": date2, "guid": uuid};
+		postRequest(URL, data2, null, true);
+	}
 }
 
 function fillCounties() {
@@ -521,19 +569,182 @@ function updateHospitals() {
 	});
 }
 
+function login() {
+	var username = $( "form#hospitalLogin input#username" ).val();
+	var password = $( "form#hospitalLogin input#password" ).val();
+
+	var data = {"username": username, "passwrd": password};
+	var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/HospitalLogin";
+
+	var response = postRequest(URL, data, null, false);
+	console.log(response);
+	if (response.status == 200) {
+		// https://stackoverflow.com/questions/16746288/javascript-login-cookies
+		// var uuid = response["guid"]
+
+		var today = new Date(); // Actual date
+		var expire = new Date(); // Expiration of the cookie
+
+		var cookie_name = "login"; // Name for the cookie to be recognized
+		var number_of_days = 14; // Number of days for the cookie to be valid (10 in this case)
+
+		expire.setTime( today.getTime() + 60 * 60 * 1000 * 24 * number_of_days ); // Current time + (60 sec * 60 min * 1000 milisecs * 24 hours * number_of_days)
+
+		document.cookie = cookie_name + "=" + escape(data["username"]) + "; expires=" + expire.toGMTString() + "SameSite=None; Secure";
+	}
+	return response;
+}
+
+function cookieExists(name) {
+	// https://stackoverflow.com/a/25617724
+
+	return document.cookie.match(/^(.*;)?\s*login\s*=\s*[^;]+(.*)?$/);
+}
+
+function getCookie(name) {
+	// https://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
+
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function logout() {
+	document.cookie = "login= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+}
+
+function displayAdmin() {
+	if (cookieExists("login")) {
+		$("div#loggedIn").find("*").show()
+		$("div#loggedOut").find("*").hide();
+	} else {
+		$("div#loggedIn").find("*").hide();
+		$("div#loggedOut").find("*").show();
+	}
+}
+
+function listRegisteredPatients(hospitalUUID) {
+	var URL = ""
+}
+
+function getInfoAboutPatient(uuid) {
+	var URL = "https://pa200-vacc-funtions.azurewebsites.net/api/FetchPatientInfo";
+	console.log(uuid);
+
+	// var response = postRequest(URL, {"guid": uuid}, null, false);
+
+	var response = {"firstName": "Pavel",
+		"surname": "Novák",
+		"insuranceNumber": 123456789,
+		"residence": "Botanická 68a, 602 00 Brno",
+		"birthDate": "2020-10-20",
+		"phoneNumber": "123456789",
+		"mail": "pavel@novak.cz",
+		"comment": "Píchnout do pravé ruky"};
+	
+	var modalBody = $( "div#patientInfo div.modal-body" );
+	modalBody.html(`<ul><li><b>Jméno</b>: ${response.firstName}</li>
+						<li><b>Příjmení</b>: ${response.surname}</li>
+						<li><b>Číslo pojištěnce</b>: ${response.insuranceNumber}</li>
+						<li><b>Adresa trvalého bydliště</b>: ${response.residence}</li>
+						<li><b>Datum narození</b>: ${response.birthDate}</li>
+						<li><b>Telefonní číslo</b>: ${response.phoneNumber}</li>
+						<li><b>Email</b>: ${response.mail}</li>
+						<li><b>Komentář</b>: ${response.comment}</li>
+					</ul>`);
+}
+
+function csvToJSON(content) {
+	if (content == "") {
+		return false;
+	}
+
+	rows = content.split(/\r?\n/);
+	var header = rows[0];
+	var fields = header.split(/,/);
+
+	var result = []
+
+	var data = rows.slice(1, rows.length - 1);
+	data.forEach(function(row) {
+		var tmp = {}
+		var dataFields = row.split(/,/);
+		if (fields.length != dataFields.length) {
+			// row lenght mismatch
+			return false;
+		}
+
+		for (i = 0; i < fields.length; i++) {
+			tmp[fields[i]] = dataFields[i];
+		}
+		result.push(tmp);
+	});
+
+	return result;
+}
+
+function readCSV() {
+	var file = $( "input[type=file]" )[0].files[0];
+	if (file == undefined) {
+		return false;
+	}
+	var reader = new FileReader();
+	reader.onload = function () {
+		var contents = csvToJSON(reader.result);
+
+		// batch upload endpoint
+		var URL = "";
+		// postRequest(URL, contents, null);
+
+
+	};
+	// start reading the file. When it is done, calls the onload event defined above.
+	reader.readAsBinaryString(file);
+}
+
 $(function() {
 	fillCounties();
+	displayAdmin();
 
 	$( "form#regForm" ).submit(function(e) {
 		e.preventDefault();
 
 		uuid = uuid4();
-		registerUser(uuid);
-		registerUserForTerms(uuid);
+		var response = registerUser(uuid);
+		console.log(response);
+		if (response["status"] == 200) {
+			data = response["data"]
+			registerUserForTerms(data);
+		}
+	});
+
+	$( "form#hospitalLogin" ).submit(function(e) {
+		e.preventDefault();
+
+		login();
+		location.reload();
+	});
+
+	$( "button#logout" ).click(function() {
+		logout();
+		location.reload();
+	});
+
+	$( "button.yes" ).click(function() {
+		// confirm vaccination
+	});
+
+	$( "form#batchUpload" ).submit(function(e) {
+		e.preventDefault();
+
+		readCSV();
 	});
 });
-
-
 
 $( "select#county" ).change(updateHospitals);
 
@@ -544,7 +755,6 @@ $(document).on('click', 'table.dates.first_date td', function() {
 		$(this).removeClass("selected_date");
 	});
 	$(this).addClass("selected_date");
-
 });
 
 $(document).on('click', 'table.dates.second_date td', function() {
@@ -554,5 +764,10 @@ $(document).on('click', 'table.dates.second_date td', function() {
 		$(this).removeClass("selected_date");
 	});
 	$(this).addClass("selected_date");
+});
 
+$(document).on('click', 'table#patientsList button', function() {
+	var uuid = $(this).attr("name");
+
+	getInfoAboutPatient(uuid);
 });
