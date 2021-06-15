@@ -2443,19 +2443,19 @@ table.dates td:hover, table.dates td.selected_date {
 	user-select: none;
 }
 
-button.no {
+button#no {
 	background-color: #EF5D60;
 }
 
-button.no:hover {
+button#no:hover {
 	background-color: #f27d7f;
 }
 
-button.yes {
+button#yes {
 	background-color: #679436;
 }
 
-button.yes:hover {
+button#yes:hover {
 	background-color: #72a53b;
 }
 

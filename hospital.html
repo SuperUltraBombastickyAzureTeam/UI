@@ -92,11 +92,14 @@
 
 					<form class="needs-validation mt-5" id="batchUpload" novalidate>
 						<h3>Hromadné nahrání termínů</h3>
+
+						TODO: popis formatu CSV, ktery vyzadujeme
+
 						<fieldset>
 							<input type="file" name="file" id="file" class="form-control" placeholder="Soubor" required>
 						</fieldset>
 						<fieldset>
-							<input type="submit" name="submit" class="w-100" value="Nahrát soubor"/>
+							<input type="submit" name="submit" class="w-100" value="Odeslat"/>
 						</fieldset>
 					</form>
 
@@ -111,16 +114,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>2021-06-15 11:16</td>
-								<td>1234-1234-1234-1234</td>
-								<td>
-									<button type="button" class="w-100" name="1234-1234-1234-1234" data-bs-toggle="modal" data-bs-target="#patientInfo">Zobrazit informace</button>
-								</td>
-								<td>
-									<button type="button" class="w-100" data-bs-toggle="modal" data-bs-target="#confirmVaccination"name="1234-1234-1234-1234">Potvrdit očkování</button>
-								</td>
-							</tr>
+							 
+							<!-- <tr> -->
+							<!-- 	<td>2021-06-15 11:16</td> -->
+							<!-- 	<td>1234-1234-1234-1234</td> -->
+							<!-- 	<td> -->
+							<!-- 		<button type="button" class="w-100 infoButton" data-datetime="2021-06-15 11:16" data-uuid="1234-1234-1234-1234" data-bs-toggle="modal" data-bs-target="#patientInfo">Zobrazit informace</button> </td> -->
+							<!-- 	<td> -->
+							<!-- 		<button type="button" class="w-100 confirmButton" data-bs-toggle="modal" data-bs-target="#confirmVaccination" -->
+	  <!-- data-datetime="2021-06-15 11:16" data-uuid="1234-1234-1234-1234" class="confirmButton">Potvrdit očkování</button> -->
+							<!-- 	</td> -->
+							<!-- </tr> -->
+							 
 						</tbody>
 					</table>
 				</div>
@@ -147,8 +152,8 @@
 				<div class="modal-content">
 					<div class="modal-header" style="border: 0;">
 						<h5 class="modal-title" id="patientInfoLabel">Opravdu chcete potvrdit očkování?</h5>
-						 <button type="button" name="" class="yes w-25">Ano</button>
-						 <button type="button" class="no w-25" data-bs-dismiss="modal">Ne</button>
+						 <button type="button" id="yes" class="w-25" id="confirmVaccination">Ano</button>
+						 <button type="button" id="no" class="w-25" data-bs-dismiss="modal">Ne</button>
 					</div>
 					<div class="modal-body">
 					</div>
